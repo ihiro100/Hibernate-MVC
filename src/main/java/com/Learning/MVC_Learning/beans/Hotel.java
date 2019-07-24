@@ -18,14 +18,7 @@ public class Hotel {
 	private int no_of_rooms;
 	private String complete_address;
 	@OneToMany(mappedBy = "hotel")
-	private List<User> user = new ArrayList<>();
-	
-	public List<User> getUser() {
-		return user;
-	}
-	public void setUser(ArrayList<User> user) {
-		this.user = user;
-	}
+	private List<Customer> customer = new ArrayList<>();
 	public int getId() {
 		return id;
 	}
@@ -50,12 +43,16 @@ public class Hotel {
 	public void setComplete_address(String complete_address) {
 		this.complete_address = complete_address;
 	}
+	public List<Customer> getCustomer() {
+		return customer;
+	}
+	public void setCustomer(List<Customer> customer) {
+		this.customer = customer;
+	}
 	@Override
 	public String toString() {
 		return "Hotel [id=" + id + ", display_name=" + display_name + ", no_of_rooms=" + no_of_rooms
-				+ ", complete_address=" + complete_address + "]";
+				+ ", complete_address=" + complete_address + ", customer=" + customer + "]";
 	}
-	
-	
 	
 }

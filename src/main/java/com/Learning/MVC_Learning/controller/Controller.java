@@ -8,32 +8,43 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import com.Learning.MVC_Learning.beans.Hotel;
-import com.Learning.MVC_Learning.beans.User;
+import com.Learning.MVC_Learning.beans.Customer;
 import com.Learning.MVC_Learning.model.Model;
 
 public class Controller {
 	public void registerUser(Hotel h) {
 		Scanner sc = new Scanner(System.in);
+		Customer c = new Customer();
 		System.out.println("Enter Customer's name.. ");
-		String name = sc.nextLine();
+		String name = sc.next();
+		c.setName(name);
 		System.out.println("Enter Customer's Phone.. ");
-		String phone = sc.nextLine();
-		User u = new User();
-		u.setName(name);
-		u.setName(phone);
-		new Model().registerUser(h,u);
+		String phone = sc.next();
+		c.setPhone_no(phone);
+		h.getCustomer().add(c);
+		c.setCheck_in(false);
+		c.setHotel(h);
+		
+		System.out.println("--------------- "+ h + "\n" +c);
+		
+		new Model().registerUser(h,c);
+		
+		System.out.println("---------------");
 	}
 
-	public void getUser(Hotel h) {
+	public Customer getUser() {
 		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter user Id.. ");
 		int id = sc.nextInt();
-		new Model().getUser(h,id);
+		return new Model().getUser(id);
 	}
 
-	public void checkInUser() {
+	public void checkInToggleUser(boolean status) {
 		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter customer Id");
 		int id = sc.nextInt();
-		new Model().checkInUser(id);
+		if(new Model().getUser(id)!=null) new Model().checkInToggleUser(id,status);
+		else System.out.println("we couldn't find user in DB");
 	}
 
 	public Hotel addHotel() {
@@ -78,6 +89,17 @@ public class Controller {
 		} else System.out.println("Hotel doesnot exist");
 
 	}
+	
+	public Hotel getHotelLobyy(){
+		Scanner sc = new Scanner(System.in);
+		Model model = new Model();
+
+		System.out.println("Enter hotel id.. ");
+		int hotel_id = sc.nextInt();
+		Hotel h = model.getHotel(hotel_id);
+		return h!=null?h:null;
+
+	}
 
 	public void removeHotel() {
 		Scanner sc = new Scanner(System.in);
@@ -91,5 +113,15 @@ public class Controller {
 		if(h!=null) {
 			model.removeHotel(h);
 		} else System.out.println("Hotel does not exist");
+	}
+	
+	public void deleteUser(){
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter customer Id");
+		int id = sc.nextInt();
+		Customer cust = new Model().getUser(id);
+		System.out.println(cust);
+		if(cust!=null) new Model().deleteUser(cust.getId());
+		else System.out.println("we couldn't find user in DB");
 	}
 }
